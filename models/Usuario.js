@@ -14,6 +14,12 @@ class Usuario {
     return data
   }
 
+  static async obtenerPorCorreo(email) {
+    const { data, error } = await supabase.from('usuarios').select('*').eq('correo', email).single()
+    if (error) throw error
+    return data
+  }
+
   static async crearUsuario(usuario) {
     const { data, error } = await supabase.from('usuarios').insert([usuario]).select('*')
     if (error) throw error
