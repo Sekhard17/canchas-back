@@ -1,7 +1,9 @@
+// Controladores del backend MVC con Express para el sistema de reserva de canchas
+
 // controllers/usuariosController.js - Controlador de Usuario
 const Usuario = require('../models/Usuario')
 const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 
 exports.obtenerUsuarios = async (req, res) => {
   try {
