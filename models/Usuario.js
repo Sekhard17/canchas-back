@@ -18,7 +18,7 @@ class Usuario {
     const { data, error } = await supabase.from('usuarios').select('*').eq('correo', email)
     if (error) throw error
     
-    // Asegúrate de que solo existe un usuario con ese correo
+    // Aseguramos de que solo existe un usuario con ese correo
     if (data.length === 0) {
       throw new Error('Usuario no encontrado')
     }

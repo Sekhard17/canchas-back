@@ -76,13 +76,20 @@ exports.loginUsuario = async (req, res) => {
       return res.status(401).json({ error: 'Las credenciales ingresadas no son correctas.' })
     }
 
-    const token = jwt.sign({ id: usuario.rut }, process.env.JWT_SECRET, { expiresIn: '1h' })
+    // Incluir el rol del usuario en el token
+    const token = jwt.sign(
+      { id: usuario.rut, rol: usuario.rol },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    )
+
     res.json({ token })
   } catch (error) {
     console.error('Error al iniciar sesión:', error)
     res.status(500).json({ error: 'Hubo un problema al iniciar sesión, por favor inténtelo más tarde.', detalle: error.message })
   }
 }
+
 
 
 exports.actualizarUsuario = async (req, res) => {
