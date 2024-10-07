@@ -34,7 +34,15 @@ exports.crearUsuario = async (req, res) => {
     }
 
     // Verificar si el usuario ya existe
-    const usuarioExistente = await Usuario.obtenerPorCorreo(correo)
+    let usuarioExistente
+    try {
+      usuarioExistente = await Usuario.obtenerPorCorreo(correo)
+    } catch (error) {
+      if (error.message !== 'Usuario no encontrado') {
+        throw error
+      }
+    }
+
     if (usuarioExistente) {
       return res.status(400).json({ error: 'El correo ya está registrado.' })
     }
