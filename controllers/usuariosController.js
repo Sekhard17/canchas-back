@@ -63,29 +63,29 @@ exports.loginUsuario = async (req, res) => {
   try {
     const { correo, contraseña } = req.body
     console.log('Intentando iniciar sesión para:', correo)
-    
+
     const usuario = await Usuario.obtenerPorCorreo(correo)
     if (!usuario) {
       console.log('Usuario no encontrado')
       return res.status(404).json({ error: 'El usuario no ha sido encontrado.' })
     }
 
-    const esValida = await bcrypt.compare(contraseña, usuario.contraseña)
+    const esValida = await bcrypt.compare(contraseña, usuario.contraseña);
     if (!esValida) {
       console.log('Contraseña incorrecta')
       return res.status(401).json({ error: 'Las credenciales ingresadas no son correctas.' })
     }
 
-    // Incluir el rol del usuario en el token
+    // Incluir nombre, apellido y correo en el token
     const token = jwt.sign(
-      { id: usuario.rut, rol: usuario.rol },
+      { id: usuario.rut, rol: usuario.rol, nombre: usuario.nombre, apellido: usuario.apellido, correo: usuario.correo },
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
     )
 
     res.json({ token })
   } catch (error) {
-    console.error('Error al iniciar sesión:', error)
+    console.error('Error al iniciar sesión:', error);
     res.status(500).json({ error: 'Hubo un problema al iniciar sesión, por favor inténtelo más tarde.', detalle: error.message })
   }
 }
