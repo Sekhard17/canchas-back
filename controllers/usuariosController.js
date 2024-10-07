@@ -1,5 +1,3 @@
-// Controladores del backend MVC con Express para el sistema de reserva de canchas
-
 // controllers/usuariosController.js - Controlador de Usuario
 const Usuario = require('../models/Usuario')
 const jwt = require('jsonwebtoken')
@@ -40,20 +38,24 @@ exports.crearUsuario = async (req, res) => {
 exports.loginUsuario = async (req, res) => {
   try {
     const { email, contraseña } = req.body
+    console.log('Intentando iniciar sesión para:', email)
     const usuario = await Usuario.obtenerPorCorreo(email)
     if (!usuario) {
+      console.log('Usuario no encontrado')
       return res.status(404).json({ error: 'Usuario no encontrado' })
     }
 
     const esValida = await bcrypt.compare(contraseña, usuario.contraseña)
     if (!esValida) {
+      console.log('Contraseña incorrecta')
       return res.status(401).json({ error: 'Credenciales incorrectas' })
     }
 
     const token = jwt.sign({ id: usuario.RUT }, process.env.JWT_SECRET, { expiresIn: '1h' })
     res.json({ token })
   } catch (error) {
-    res.status(500).json({ error: 'Error al iniciar sesión' })
+    console.error('Error al iniciar sesión:', error)
+    res.status(500).json({ error: 'Error al iniciar sesión', detalle: error.message })
   }
 }
 
