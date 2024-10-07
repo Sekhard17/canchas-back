@@ -26,12 +26,28 @@ exports.obtenerUsuarioPorId = async (req, res) => {
 
 exports.crearUsuario = async (req, res) => {
   try {
-    const { contraseña, ...restoDatos } = req.body
+    const { nombre, correo, RUT, contraseña } = req.body
+
+    // Verificar que todos los campos requeridos estén presentes
+    if (!nombre || !correo || !RUT || !contraseña) {
+      return res.status(400).json({ error: 'Todos los campos son obligatorios.' })
+    }
+
+    // Verificar si el usuario ya existe
+    const usuarioExistente = await Usuario.obtenerPorCorreo(correo)
+    if (usuarioExistente) {
+      return res.status(400).json({ error: 'El correo ya está registrado.' })
+    }
+
+    // Hash de la contraseña
     const hash = await bcrypt.hash(contraseña, 10)
-    const nuevoUsuario = await Usuario.crearUsuario({ ...restoDatos, contraseña: hash })
+
+    // Crear el nuevo usuario
+    const nuevoUsuario = await Usuario.crearUsuario({ nombre, correo, RUT, contraseña: hash })
     res.status(201).json(nuevoUsuario)
   } catch (error) {
-    res.status(500).json({ error: 'Error al crear usuario' })
+    console.error('Error al crear usuario:', error)
+    res.status(500).json({ error: 'Hubo un problema al crear el usuario, por favor inténtelo más tarde.', detalle: error.message })
   }
 }
 
