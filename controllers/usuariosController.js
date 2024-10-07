@@ -1,5 +1,7 @@
 // controllers/usuariosController.js - Controlador de Usuario
 const Usuario = require('../models/Usuario')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
 
 exports.obtenerUsuarios = async (req, res) => {
   try {
@@ -24,10 +26,32 @@ exports.obtenerUsuarioPorId = async (req, res) => {
 
 exports.crearUsuario = async (req, res) => {
   try {
-    const nuevoUsuario = await Usuario.crearUsuario(req.body)
+    const { contraseña, ...restoDatos } = req.body
+    const hash = await bcrypt.hash(contraseña, 10)
+    const nuevoUsuario = await Usuario.crearUsuario({ ...restoDatos, contraseña: hash })
     res.status(201).json(nuevoUsuario)
   } catch (error) {
     res.status(500).json({ error: 'Error al crear usuario' })
+  }
+}
+
+exports.loginUsuario = async (req, res) => {
+  try {
+    const { email, contraseña } = req.body
+    const usuario = await Usuario.obtenerPorCorreo(email)
+    if (!usuario) {
+      return res.status(404).json({ error: 'Usuario no encontrado' })
+    }
+
+    const esValida = await bcrypt.compare(contraseña, usuario.contraseña)
+    if (!esValida) {
+      return res.status(401).json({ error: 'Credenciales incorrectas' })
+    }
+
+    const token = jwt.sign({ id: usuario.RUT }, process.env.JWT_SECRET, { expiresIn: '1h' })
+    res.json({ token })
+  } catch (error) {
+    res.status(500).json({ error: 'Error al iniciar sesión' })
   }
 }
 
