@@ -26,10 +26,10 @@ exports.obtenerUsuarioPorId = async (req, res) => {
 
 exports.crearUsuario = async (req, res) => {
   try {
-    const { nombre, correo, rut, contraseña } = req.body
+    const { nombre, apellido, correo, rut, contraseña } = req.body
 
     // Verificar que todos los campos requeridos estén presentes
-    if (!nombre || !correo || !rut || !contraseña) {
+    if (!nombre || !apellido || !correo || !rut || !contraseña) {
       return res.status(400).json({ error: 'Todos los campos son obligatorios.' })
     }
 
@@ -51,7 +51,7 @@ exports.crearUsuario = async (req, res) => {
     const hash = await bcrypt.hash(contraseña, 10)
 
     // Crear el nuevo usuario
-    const nuevoUsuario = await Usuario.crearUsuario({ nombre, correo, rut, contraseña: hash })
+    const nuevoUsuario = await Usuario.crearUsuario({ nombre, apellido, correo, rut, contraseña: hash })
     res.status(201).json(nuevoUsuario)
   } catch (error) {
     console.error('Error al crear usuario:', error)
