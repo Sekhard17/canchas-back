@@ -10,10 +10,10 @@ const solicitudesRoutes = require('./routes/solicitudesRoutes')
 const respuestaSolicitudesRoutes = require('./routes/respuestaSolicitudesRoutes')
 const gananciasRoutes = require('./routes/gananciasRoutes')
 const pagosRoutes = require('./routes/pagosRoutes')
-auditoriaRoutes = require('./routes/auditoriaRoutes')
+const auditoriaRoutes = require('./routes/auditoriaRoutes')
 const reportesRoutes = require('./routes/reportesRoutes')
 const notificacionesRoutes = require('./routes/notificacionesRoutes')
-const database = require('./config/database')
+const database = require('./config/database') // No necesitamos llamar a connect()
 
 // Configuración del puerto
 const PORT = process.env.PORT || 3001
@@ -34,9 +34,6 @@ app.use('/api/pagos', pagosRoutes)
 app.use('/api/auditoria', auditoriaRoutes)
 app.use('/api/reportes', reportesRoutes)
 app.use('/api/notificaciones', notificacionesRoutes)
-
-// Inicializar conexión a la base de datos
-database.connect()
 
 // Iniciar el servidor
 app.listen(PORT, () => {
