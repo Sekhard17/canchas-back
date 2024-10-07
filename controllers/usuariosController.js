@@ -26,7 +26,7 @@ exports.obtenerUsuarioPorId = async (req, res) => {
 
 exports.crearUsuario = async (req, res) => {
   try {
-    const { nombre, correo, rut, contraseña } = req.body
+    const { nombre, correo, RUT, contraseña } = req.body
 
     // Verificar que todos los campos requeridos estén presentes
     if (!nombre || !correo || !RUT || !contraseña) {
