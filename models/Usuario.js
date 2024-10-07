@@ -15,9 +15,19 @@ class Usuario {
   }
 
   static async obtenerPorCorreo(email) {
-    const { data, error } = await supabase.from('usuarios').select('*').eq('correo', email).single()
+    const { data, error } = await supabase.from('usuarios').select('*').eq('correo', email)
     if (error) throw error
-    return data
+    
+    // Asegúrate de que solo existe un usuario con ese correo
+    if (data.length === 0) {
+      throw new Error('Usuario no encontrado')
+    }
+    
+    if (data.length > 1) {
+      throw new Error('Más de un usuario encontrado con ese correo')
+    }
+
+    return data[0]
   }
 
   static async crearUsuario(usuario) {
