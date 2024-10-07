@@ -29,7 +29,7 @@ exports.crearUsuario = async (req, res) => {
     const { nombre, correo, rut, contraseña } = req.body
 
     // Verificar que todos los campos requeridos estén presentes
-    if (!nombre || !correo || !rut || !contraseña) {
+    if (!nombre || !correo || !RUT || !contraseña) {
       return res.status(400).json({ error: 'Todos los campos son obligatorios.' })
     }
 
