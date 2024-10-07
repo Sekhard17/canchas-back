@@ -26,10 +26,10 @@ exports.obtenerUsuarioPorId = async (req, res) => {
 
 exports.crearUsuario = async (req, res) => {
   try {
-    const { nombre, correo, RUT, contraseña } = req.body
+    const { nombre, correo, rut, contraseña } = req.body
 
     // Verificar que todos los campos requeridos estén presentes
-    if (!nombre || !correo || !RUT || !contraseña) {
+    if (!nombre || !correo || !rut || !contraseña) {
       return res.status(400).json({ error: 'Todos los campos son obligatorios.' })
     }
 
@@ -75,7 +75,7 @@ exports.loginUsuario = async (req, res) => {
       return res.status(401).json({ error: 'Las credenciales ingresadas no son correctas.' })
     }
 
-    const token = jwt.sign({ id: usuario.RUT }, process.env.JWT_SECRET, { expiresIn: '1h' })
+    const token = jwt.sign({ id: usuario.rut }, process.env.JWT_SECRET, { expiresIn: '1h' })
     res.json({ token })
   } catch (error) {
     console.error('Error al iniciar sesión:', error)
