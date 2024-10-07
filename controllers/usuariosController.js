@@ -61,9 +61,10 @@ exports.crearUsuario = async (req, res) => {
 
 exports.loginUsuario = async (req, res) => {
   try {
-    const { email, contraseña } = req.body
-    console.log('Intentando iniciar sesión para:', email)
-    const usuario = await Usuario.obtenerPorCorreo(email)
+    const { correo, contraseña } = req.body
+    console.log('Intentando iniciar sesión para:', correo)
+    
+    const usuario = await Usuario.obtenerPorCorreo(correo)
     if (!usuario) {
       console.log('Usuario no encontrado')
       return res.status(404).json({ error: 'El usuario no ha sido encontrado.' })
@@ -79,9 +80,10 @@ exports.loginUsuario = async (req, res) => {
     res.json({ token })
   } catch (error) {
     console.error('Error al iniciar sesión:', error)
-    res.status(500).json({ error: 'Hubo un problema al iniciar sesión, por favor inténtelo más tarde.' })
+    res.status(500).json({ error: 'Hubo un problema al iniciar sesión, por favor inténtelo más tarde.', detalle: error.message })
   }
 }
+
 
 exports.actualizarUsuario = async (req, res) => {
   try {
