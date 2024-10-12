@@ -6,9 +6,11 @@ exports.obtenerReservas = async (req, res) => {
     const reservas = await Reserva.obtenerTodas()
     res.json(reservas)
   } catch (error) {
-    res.status(500).json({ error: 'Error al obtener reservas' })
+    console.error('Error al obtener reservas:', error)  // Esto imprimirá el error completo en los logs
+    res.status(500).json({ error: 'Error al obtener reservas', details: error.message })
   }
 }
+
 
 exports.obtenerReservaPorId = async (req, res) => {
   try {
