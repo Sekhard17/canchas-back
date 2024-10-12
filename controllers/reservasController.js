@@ -54,3 +54,14 @@ exports.eliminarReserva = async (req, res) => {
     res.status(500).json({ error: 'Error al eliminar reserva' })
   }
 }
+
+exports.obtenerReservasUsuario = async (req, res) => {
+  try {
+    const rutUsuario = req.user.id; // Asegúrate de obtener el RUT del token decodificado
+    const reservas = await Reserva.obtenerPorUsuario(rutUsuario)
+    res.json(reservas)
+  } catch (error) {
+    res.status(500).json({ error: 'Error al obtener reservas del usuario' })
+  }
+}
+
