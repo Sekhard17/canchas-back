@@ -29,6 +29,12 @@ class Reserva {
     if (error) throw error
     return data[0]
   }
+
+  static async obtenerPorUsuario(rutUsuario) {
+    const { data, error } = await supabase.from('"reservas"').select('*').eq('"rut_usuario"', rutUsuario)
+    if (error) throw error
+    return data
+  }
 }
 
 module.exports = Reserva
