@@ -2,7 +2,7 @@
 const express = require('express')
 const router = express.Router()
 const reservasController = require('../controllers/reservasController')
-const verificarToken = require('../middlewares/verificarToken') // Importar el middleware
+const verificarToken = require('../middleware/verificarToken') // Importar el middleware
 
 // Proteger las rutas de reservas con el middleware verificarToken
 router.get('/', verificarToken, reservasController.obtenerReservas)
