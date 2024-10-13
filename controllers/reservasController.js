@@ -59,13 +59,15 @@ exports.eliminarReserva = async (req, res) => {
 
 exports.obtenerReservasUsuario = async (req, res) => {
   try {
-    const rutUsuario = req.user.id// Asegúrate de obtener correctamente el RUT del usuario
+    console.log('Datos del usuario logueado:', req.user) // Para depurar si los datos del usuario están presentes
+    const rutUsuario = req.user.id; // Verificar si el RUT del usuario está disponible
     const reservas = await Reserva.obtenerPorUsuario(rutUsuario)
-    res.json(reservas);
+    res.json(reservas)
   } catch (error) {
-    console.error('Error al obtener reservas del usuario:', error)  // Imprime el error en la consola
-    res.status(500).json({ error: 'Error al obtener reservas del usuario', details: error.message });  // Incluye detalles del error en la respuesta
+    console.error('Error al obtener reservas del usuario:', error)
+    res.status(500).json({ error: 'Error al obtener reservas del usuario', details: error.message })
   }
-}
+};
+
 
 
