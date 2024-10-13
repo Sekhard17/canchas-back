@@ -1,6 +1,7 @@
 // models/Reserva.js - Modelo de Reserva
+const supabase = require('../config/database');  // Importar la instancia de Supabase desde config/database
+
 class Reserva {
-  // Obtener todas las reservas
   static async obtenerTodas() {
     try {
       const { data, error } = await supabase.from('"reservas"').select('*');
@@ -12,7 +13,6 @@ class Reserva {
     }
   }
 
-  // Obtener reserva por ID
   static async obtenerPorId(id) {
     try {
       const { data, error } = await supabase.from('"reservas"').select('*').eq('"id_reserva"', id).single();
@@ -24,7 +24,6 @@ class Reserva {
     }
   }
 
-  // Crear una nueva reserva
   static async crearReserva(reserva) {
     try {
       const { data, error } = await supabase.from('"reservas"').insert([reserva]).select('*');
@@ -36,7 +35,6 @@ class Reserva {
     }
   }
 
-  // Actualizar una reserva existente
   static async actualizarReserva(id, data) {
     try {
       const { data: updatedData, error } = await supabase.from('"reservas"').update(data).eq('"id_reserva"', id).select('*');
@@ -48,7 +46,6 @@ class Reserva {
     }
   }
 
-  // Eliminar una reserva por ID
   static async eliminarReserva(id) {
     try {
       const { data, error } = await supabase.from('"reservas"').delete().eq('"id_reserva"', id).select('*');
@@ -60,7 +57,6 @@ class Reserva {
     }
   }
 
-  // Obtener reservas por usuario logueado (filtrando por rut_usuario)
   static async obtenerPorUsuario(rutUsuario) {
     try {
       const { data, error } = await supabase.from('"reservas"').select('*').eq('"rut_usuario"', rutUsuario);
