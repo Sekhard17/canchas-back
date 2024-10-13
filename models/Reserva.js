@@ -4,7 +4,7 @@ const supabase = require('../config/database');  // Importar la instancia de Sup
 class Reserva {
   static async obtenerTodas() {
     try {
-      const { data, error } = await supabase.from('"reservas"').select('*');
+      const { data, error } = await supabase.from('reservas').select('*');  // Sin comillas dobles
       if (error) throw error;
       return data;
     } catch (error) {
@@ -15,7 +15,7 @@ class Reserva {
 
   static async obtenerPorId(id) {
     try {
-      const { data, error } = await supabase.from('"reservas"').select('*').eq('"id_reserva"', id).single();
+      const { data, error } = await supabase.from('reservas').select('*').eq('id_reserva', id).single();  // Sin comillas dobles
       if (error) throw error;
       return data;
     } catch (error) {
@@ -26,7 +26,7 @@ class Reserva {
 
   static async crearReserva(reserva) {
     try {
-      const { data, error } = await supabase.from('"reservas"').insert([reserva]).select('*');
+      const { data, error } = await supabase.from('reservas').insert([reserva]).select('*');  // Sin comillas dobles
       if (error) throw error;
       return data[0];
     } catch (error) {
@@ -37,7 +37,7 @@ class Reserva {
 
   static async actualizarReserva(id, data) {
     try {
-      const { data: updatedData, error } = await supabase.from('"reservas"').update(data).eq('"id_reserva"', id).select('*');
+      const { data: updatedData, error } = await supabase.from('reservas').update(data).eq('id_reserva', id).select('*');  // Sin comillas dobles
       if (error) throw error;
       return updatedData[0];
     } catch (error) {
@@ -48,7 +48,7 @@ class Reserva {
 
   static async eliminarReserva(id) {
     try {
-      const { data, error } = await supabase.from('"reservas"').delete().eq('"id_reserva"', id).select('*');
+      const { data, error } = await supabase.from('reservas').delete().eq('id_reserva', id).select('*');  // Sin comillas dobles
       if (error) throw error;
       return data[0];
     } catch (error) {
@@ -59,7 +59,7 @@ class Reserva {
 
   static async obtenerPorUsuario(rutUsuario) {
     try {
-      const { data, error } = await supabase.from('"reservas"').select('*').eq('"rut_usuario"', rutUsuario);
+      const { data, error } = await supabase.from('reservas').select('*').eq('rut_usuario', rutUsuario);  // Sin comillas dobles
       if (error) throw error;
       return data;
     } catch (error) {
