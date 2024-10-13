@@ -59,15 +59,21 @@ exports.eliminarReserva = async (req, res) => {
 
 exports.obtenerReservasUsuario = async (req, res) => {
   try {
-    console.log('Datos del usuario logueado:', req.user) // Para depurar si los datos del usuario están presentes
-    const rutUsuario = req.user.id; // Verificar si el RUT del usuario está disponible
-    const reservas = await Reserva.obtenerPorUsuario(rutUsuario)
-    res.json(reservas)
+    console.log('Contenido de req.user:', req.user);  // Imprimir req.user para ver qué contiene
+
+    const rutUsuario = req.user.id;  // O verifica si es req.user.rut o req.user.RUT
+    if (!rutUsuario) {
+      return res.status(400).json({ error: 'No se encontró el RUT del usuario en el token' });
+    }
+
+    const reservas = await Reserva.obtenerPorUsuario(rutUsuario);
+    res.json(reservas);
   } catch (error) {
-    console.error('Error al obtener reservas del usuario:', error)
-    res.status(500).json({ error: 'Error al obtener reservas del usuario', details: error.message })
+    console.error('Error al obtener reservas del usuario:', error);
+    res.status(500).json({ error: 'Error al obtener reservas del usuario', details: error.message });
   }
 };
+
 
 
 

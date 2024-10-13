@@ -3,20 +3,19 @@
 const jwt = require('jsonwebtoken')
 
 const verificarToken = (req, res, next) => {
-  const authHeader = req.header('Authorization')
-  const token = authHeader && authHeader.split(' ')[1]
-
+  const token = req.header('Authorization')?.split(' ')[1];  // Extraer el token
   if (!token) {
-    return res.status(401).json({ error: 'Acceso denegado. Token no proporcionado.' })
+    return res.status(401).json({ error: 'Acceso denegado, no hay token proporcionado' });
   }
 
   try {
-    const verificado = jwt.verify(token, process.env.JWT_SECRET)
-    req.usuario = verificado; // Añadir el usuario decodificado al objeto de solicitud para usarlo en el controlador
-    next(); // Continuar con la siguiente función del middleware
+    const verified = jwt.verify(token, process.env.JWT_SECRET);  // Verificar el token con la clave secreta
+    req.user = verified;  // Aquí es donde asignamos el contenido del token JWT a req.user
+    console.log('Usuario verificado:', req.user);  // Imprimir para verificar que contiene el RUT o ID
+    next();
   } catch (error) {
-    res.status(403).json({ error: 'Token inválido.' })
+    res.status(400).json({ error: 'Token inválido' });
   }
 }
 
-module.exports = verificarToken
+module.exports = verificarToken;
