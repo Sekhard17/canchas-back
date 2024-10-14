@@ -14,6 +14,7 @@ const pagosRoutes = require('./routes/pagosRoutes')
 const auditoriaRoutes = require('./routes/auditoriaRoutes')
 const reportesRoutes = require('./routes/reportesRoutes')
 const notificacionesRoutes = require('./routes/notificacionesRoutes')
+const dashboardRoutes = require('./routes/dashboardRoutes') // Nueva ruta para el dashboard
 const database = require('./config/database') // No necesitamos llamar a connect()
 
 // Configuración del puerto
@@ -35,6 +36,7 @@ app.use('/api/pagos', pagosRoutes)
 app.use('/api/auditoria', auditoriaRoutes)
 app.use('/api/reportes', reportesRoutes)
 app.use('/api/notificaciones', notificacionesRoutes)
+app.use('/api/dashboard', dashboardRoutes) // Nueva ruta para el dashboard
 
 // Iniciar el servidor
 app.listen(PORT, () => {
