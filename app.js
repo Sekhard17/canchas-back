@@ -22,12 +22,10 @@ const dashboardRoutes = require('./routes/dashboardRoutes'); // Nueva ruta para 
 const webhookRoutes = require('./routes/webhookRoutes'); // Ruta para el webhook de Mercado Pago
 
 // Configuración del puerto
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
 // Configuración de Mercado Pago
-mercadopago.configure({
-  access_token: process.env.ACCESS_TOKEN, // Access Token desde las variables de entorno
-});
+mercadopago.configurations.setAccessToken(process.env.ACCESS_TOKEN); // Usar el token de acceso desde las variables de entorno
 
 // Middleware
 app.use(cors());
