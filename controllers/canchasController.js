@@ -3,10 +3,21 @@ const Cancha = require('../models/Cancha')
 
 exports.obtenerCanchas = async (req, res) => {
   try {
+    console.log('Intentando obtener canchas...');
     const canchas = await Cancha.obtenerTodas()
+    console.log('Canchas obtenidas:', canchas);
     res.json(canchas)
   } catch (error) {
-    res.status(500).json({ error: 'Error al obtener canchas' })
+    console.error('Error detallado:', {
+      message: error.message,
+      stack: error.stack,
+      details: error.details // Para errores de Supabase
+    });
+    res.status(500).json({ 
+      error: 'Error al obtener canchas',
+      message: error.message,
+      details: error.details
+    })
   }
 }
 
